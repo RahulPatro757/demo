@@ -1,0 +1,575 @@
+Day 1 Assignment
+
+1. Variable Types: Local, Instance, and Static
+Question: What are the differences between local, instance, and static variables in Java?
+Answer:
+
+Local Variables: These are declared inside a method or block and exist only while that method or block is running. They cannot be accessed outside the method or block.
+Instance Variables: These are declared in a class but outside any method. They belong to a specific object of the class, so each object has its own copy of the instance variable.
+Static Variables: These are declared using the static keyword and belong to the class rather than an individual object. All objects of the class share the same static variable.
+
+class VariableTypes {
+    int instanceVar = 10; // Instance variable
+    static int staticVar = 20; // Static variable
+
+    void show() {
+        int localVar = 30; // Local variable
+        System.out.println("Local Variable: " + localVar);
+        System.out.println("Instance Variable: " + instanceVar);
+        System.out.println("Static Variable: " + staticVar);
+    }
+
+    public static void main(String[] args) {
+        VariableTypes obj1 = new VariableTypes();
+        VariableTypes obj2 = new VariableTypes();
+
+        obj1.show();
+        obj2.show();
+
+        // Static variable shared by all objects
+        obj1.staticVar = 50;
+        System.out.println("Static Var (shared): " + obj2.staticVar);
+    }
+}
+2. Variable Scope
+Question: How does the scope of variables differ inside methods, blocks, and classes?
+Answer:
+
+Method Scope: Variables declared inside a method exist only while that method is running and are not accessible outside the method.
+Block Scope: Variables declared inside {} exist only within that block. Once the block ends, the variable is destroyed.
+Class Scope: Variables declared at the class level (static or instance) are accessible throughout the class and can be used by methods of the class.
+Code:
+
+class VariableScope {
+    int classVar = 10; // Class scope
+
+    void method() {
+        int methodVar = 20; // Method scope
+        {
+            int blockVar = 30; // Block scope
+            System.out.println("Block Variable: " + blockVar);
+        }
+        System.out.println("Method Variable: " + methodVar);
+        System.out.println("Class Variable: " + classVar);
+    }
+
+    public static void main(String[] args) {
+        VariableScope obj = new VariableScope();
+        obj.method();
+    }
+}
+3. Final Variables
+Question: What are final variables in Java, and what happens if we try to change their value?
+Answer:
+Final variables are constants in Java. Once assigned a value, they cannot be changed. If we try to modify a final variable, the compiler will throw an error.
+
+Code:
+class FinalVariable {
+    final int constantVar = 100; // Final variable
+
+    void show() {
+        // constantVar = 200; // Error: Cannot change final variable
+        System.out.println("Final Variable: " + constantVar);
+    }
+
+    public static void main(String[] args) {
+        FinalVariable obj = new FinalVariable();
+        obj.show();
+    }
+}
+4. Type Inference (var)
+Question: How does Java’s var feature work?
+Answer:
+The var keyword, introduced in Java 10, allows the compiler to automatically determine the type of a variable based on its value. It simplifies the code but still enforces strong typing.
+
+Code:
+class TypeInference {
+    public static void main(String[] args) {
+        var number = 10; // Inferred as int
+        var text = "Hello, World"; // Inferred as String
+
+        System.out.println("Number: " + number);
+        System.out.println("Text: " + text);
+    }
+}
+5. Static vs Non-Static Variables
+Question: What is the difference between static and non-static variables in Java?
+Answer:
+
+Static Variables: These belong to the class and are shared by all objects of the class. Only one copy exists in memory.
+Non-Static Variables: These belong to each object of the class, so every object has its own separate copy.
+Code:
+class StaticVsNonStatic {
+    static int staticVar = 0; // Shared by all objects
+    int nonStaticVar = 0; // Separate for each object
+
+    void increment() {
+        staticVar++;
+        nonStaticVar++;
+    }
+
+    public static void main(String[] args) {
+        StaticVsNonStatic obj1 = new StaticVsNonStatic();
+        StaticVsNonStatic obj2 = new StaticVsNonStatic();
+
+        obj1.increment();
+        obj2.increment();
+
+        System.out.println("Static Var (shared): " + StaticVsNonStatic.staticVar);
+        System.out.println("Non-Static Var (obj1): " + obj1.nonStaticVar);
+        System.out.println("Non-Static Var (obj2): " + obj2.nonStaticVar);
+    }
+}
+
+
+6. Primitive vs Reference Variables
+Question: What are the differences between primitive and reference variables in Java?
+Answer:
+
+Primitive Variables: Store actual values (e.g., int, float). They hold basic data types and are stored directly in memory.
+Reference Variables: Store the memory address of objects (e.g., arrays, custom objects). They reference an object in heap memory.
+Code:
+class PrimitiveVsReference {
+    public static void main(String[] args) {
+        int primitiveVar = 10; // Primitive variable
+        int[] referenceVar = {20}; // Reference variable
+
+        System.out.println("Before Change:");
+        System.out.println("Primitive Value: " + primitiveVar);
+        System.out.println("Reference Value: " + referenceVar[0]);
+
+        primitiveVar = 30;
+        referenceVar[0] = 40; // Changes the object value
+
+        System.out.println("\nAfter Change:");
+        System.out.println("Primitive Value: " + primitiveVar); // Unaffected by reference changes
+        System.out.println("Reference Value: " + referenceVar[0]);
+    }
+}
+7. Constant Variables with static final
+Question: How can we use static final variables to define constants in Java?
+Answer:
+
+static final is used to define constants that belong to the class and do not change. Constants like PI or GRAVITY can be declared using this combination.
+Code:
+class Constants {
+    static final double PI = 3.14159; // Constant
+
+    public static void main(String[] args) {
+        double radius = 5;
+
+        double area = PI * radius * radius;
+        double circumference = 2 * PI * radius;
+
+        System.out.println("Area: " + area);
+        System.out.println("Circumference: " + circumference);
+    }
+}
+8. Shadowing Variables
+Question: What is variable shadowing in Java?
+Answer:
+
+Variable shadowing happens when a variable declared inside a method or block has the same name as a class or instance variable. The inner variable "shadows" or hides the outer variable within its scope.
+Code:
+class Shadowing {
+    int x = 10; // Instance variable
+
+    void show() {
+        int x = 20; // Local variable shadows the instance variable
+        System.out.println("Local x: " + x);
+        System.out.println("Instance x (using this): " + this.x);
+    }
+
+    public static void main(String[] args) {
+        Shadowing obj = new Shadowing();
+        obj.show();
+    }
+}
+9. Default Values of Variables
+Question: What are the default values of instance and static variables in Java?
+Answer:
+
+Instance and static variables are automatically assigned default values if not initialized. For example:
+int = 0
+float = 0.0
+boolean = false
+Objects = null.
+Local variables, however, do not have default values and must be explicitly initialized.
+Code:
+class DefaultValues {
+    int instanceVar; // Default = 0
+    static int staticVar; // Default = 0
+
+    public static void main(String[] args) {
+        DefaultValues obj = new DefaultValues();
+
+        System.out.println("Default Instance Variable: " + obj.instanceVar);
+        System.out.println("Default Static Variable: " + staticVar);
+
+        // Uncommenting the line below will cause an error as localVar is not initialized.
+        // int localVar;
+        // System.out.println("Local Variable: " + localVar); // Error
+    }
+}
+10. Volatile Variables
+Question: What is the purpose of the volatile keyword in Java?
+Answer:
+
+The volatile keyword ensures that the value of a variable is always read from main memory, not from a thread’s cache. It is used in multithreading to prevent threads from working with outdated values of variables.
+Code:
+class VolatileDemo extends Thread {
+    private volatile boolean running = true; // Volatile variable
+
+    public void run() {
+        while (running) {
+            System.out.println("Thread is running...");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Thread stopped.");
+    }
+
+    public void stopThread() {
+        running = false; // Volatile ensures this change is visible to all threads
+    }
+
+    public static void main(String[] args) {
+        VolatileDemo thread = new VolatileDemo();
+        thread.start();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        thread.stopThread(); // Stop the thread safely
+    }
+}
+
+
+
+
+1. String Manipulation
+Program to count the frequency of each character in a string, ignoring case sensitivity and excluding special characters:
+
+class CharacterFrequency {
+    public static void main(String[] args) {
+        String str = "Hello, World!123";
+        str = str.toLowerCase();
+
+        System.out.println("Character Frequency:");
+        for (char c = 'a'; c <= 'z'; c++) { // Loop through alphabet
+            int count = 0;
+            for (int i = 0; i < str.length(); i++) {
+                if (str.charAt(i) == c) {
+                    count++;
+                }
+            }
+            if (count > 0) {
+                System.out.println(c + ": " + count);
+            }
+        }
+    }
+}
+2. Anagram Checker
+Program to check if two strings are anagrams:
+
+class AnagramChecker {
+    public static void main(String[] args) {
+        String str1 = "Listen";
+        String str2 = "Silent";
+
+        str1 = str1.toLowerCase().replaceAll("\\s+", "");
+        str2 = str2.toLowerCase().replaceAll("\\s+", "");
+
+        if (str1.length() != str2.length()) {
+            System.out.println("Not anagrams");
+            return;
+        }
+
+        int[] charCount = new int[26]; // Array to count character frequencies
+
+        for (int i = 0; i < str1.length(); i++) {
+            charCount[str1.charAt(i) - 'a']++;
+            charCount[str2.charAt(i) - 'a']--;
+        }
+
+        for (int count : charCount) {
+            if (count != 0) {
+                System.out.println("Not anagrams");
+                return;
+            }
+        }
+
+        System.out.println("The strings are anagrams");
+    }
+}
+3. Array Rotation
+Program to rotate an array n times to the right or left:
+
+class ArrayRotation {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};
+        int n = 2; // Number of rotations
+        boolean toRight = true; // Rotate to the right
+
+        int len = arr.length;
+        n = n % len;
+
+        if (!toRight) {
+            n = len - n; // Convert left rotation to equivalent right rotation
+        }
+
+        System.out.println("Rotated Array:");
+        for (int i = 0; i < len; i++) {
+            System.out.print(arr[(i + n) % len] + " ");
+        }
+    }
+}
+4. Subarray Sum
+Program to find the maximum sum of a contiguous subarray:
+class SubarraySum {
+    public static void main(String[] args) {
+        int[] arr = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+
+        int maxSum = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            int currentSum = 0;
+            for (int j = i; j < arr.length; j++) {
+                currentSum += arr[j];
+                if (currentSum > maxSum) {
+                    maxSum = currentSum;
+                }
+            }
+        }
+
+        System.out.println("Maximum Subarray Sum: " + maxSum);
+    }
+}
+5. Matrix Multiplication
+Program to multiply two matrices with validation:
+
+class MatrixMultiplication {
+    public static void main(String[] args) {
+        int[][] matrix1 = {{1, 2}, {3, 4}};
+        int[][] matrix2 = {{5, 6}, {7, 8}};
+
+        int rows1 = matrix1.length;
+        int cols1 = matrix1[0].length;
+        int rows2 = matrix2.length;
+        int cols2 = matrix2[0].length;
+
+        if (cols1 != rows2) {
+            System.out.println("Matrix multiplication is not possible");
+            return;
+        }
+
+        int[][] result = new int[rows1][cols2];
+        for (int i = 0; i < rows1; i++) {
+            for (int j = 0; j < cols2; j++) {
+                for (int k = 0; k < cols1; k++) {
+                    result[i][j] += matrix1[i][k] * matrix2[k][j];
+                }
+            }
+        }
+
+        System.out.println("Resultant Matrix:");
+        for (int i = 0; i < rows1; i++) {
+            for (int j = 0; j < cols2; j++) {
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+6. Palindrome Checker
+Program to check if a given string is a palindrome:
+
+class PalindromeChecker {
+    public static void main(String[] args) {
+        String str = "madam";
+
+        // Convert the string to lowercase
+        str = str.toLowerCase();
+
+        // Step 1: Check if the string is the same when reversed
+        String reversedStr = "";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversedStr += str.charAt(i);
+        }
+
+        // Step 2: Compare the original string with the reversed string
+        if (str.equals(reversedStr)) {
+            System.out.println("The string is a palindrome");
+        } else {
+            System.out.println("The string is not a palindrome");
+        }
+    }
+}
+7. Array Element Comparison
+Program to compare elements of two arrays of the same size:
+
+class ArrayElementComparison {
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, 4};
+        int[] arr2 = {1, 2, 5, 4};
+
+        // Step 1: Compare each element of both arrays
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] == arr2[i]) {
+                System.out.println("arr1[" + i + "] and arr2[" + i + "] are equal.");
+            } else if (arr1[i] > arr2[i]) {
+                System.out.println("arr1[" + i + "] is greater than arr2[" + i + "]");
+            } else {
+                System.out.println("arr1[" + i + "] is less than arr2[" + i + "]");
+            }
+        }
+    }
+}
+8. Vowel and Consonant Counter
+Program to count vowels and consonants in a given string:
+
+class VowelConsonantCounter {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        int vowels = 0, consonants = 0;
+
+        // Step 1: Loop through each character and check if it is a vowel or consonant
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (Character.isLetter(ch)) { // Check if the character is a letter
+                if ("aeiouAEIOU".indexOf(ch) != -1) {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+
+        // Step 2: Output the count of vowels and consonants
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+}
+9. Frequency of Elements
+Program to find the frequency of each element in an array:
+class FrequencyOfElements {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 2, 3, 3, 3, 4};
+
+        // Step 1: Compare each element and count frequency
+        for (int i = 0; i < arr.length; i++) {
+            boolean found = false;
+            // Check if this element is already counted
+            for (int j = 0; j < i; j++) {
+                if (arr[i] == arr[j]) {
+                    found = true;
+                    break;
+                }
+            }
+            // If not found, count its frequency
+            if (!found) {
+                int count = 1;
+                for (int j = i + 1; j < arr.length; j++) {
+                    if (arr[i] == arr[j]) {
+                        count++;
+                    }
+                }
+                System.out.println("Element " + arr[i] + " occurs " + count + " times.");
+            }
+        }
+    }
+}
+10. Valid Parentheses
+Program to check if a string with {}, [], and () contains valid parentheses:
+class ValidParentheses {
+    public static void main(String[] args) {
+        String str = "{[()]}";
+
+        // Step 1: Check if the string is valid by comparing parentheses
+        int balance = 0;
+        boolean isValid = true;
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+
+            if (ch == '(' || ch == '{' || ch == '[') {
+                balance++;
+            } else if (ch == ')' || ch == '}' || ch == ']') {
+                balance--;
+            }
+
+            if (balance < 0) {
+                isValid = false;
+                break;
+            }
+        }
+
+        // Step 2: Final check to ensure balance is 0
+        if (balance == 0 && isValid) {
+            System.out.println("The parentheses are valid.");
+        } else {
+            System.out.println("The parentheses are not valid.");
+        }
+    }
+}
+
+
+
+Bank Account Program
+class BankAccount {
+    // Instance variables
+    String accountHolderName;
+    double accountBalance;
+
+    // Constructor to initialize account details
+    public BankAccount(String name, double balance) {
+        accountHolderName = name;
+        accountBalance = balance;
+    }
+
+    // Method to deposit money
+    public void depositMoney(double amount) {
+        accountBalance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+
+    // Method to withdraw money
+    public void withdrawMoney(double amount) {
+        if (amount <= accountBalance) {
+            accountBalance -= amount;
+            System.out.println("Withdrew: " + amount);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    // Method to check balance
+    public void checkBalance() {
+        System.out.println("Balance: " + accountBalance);
+    }
+
+    public static void main(String[] args) {
+        // Create a new bank account
+        BankAccount account = new BankAccount("John Doe", 1000);
+
+        // Check balance
+        account.checkBalance();
+
+        // Deposit money
+        account.depositMoney(500);
+
+        // Withdraw money
+        account.withdrawMoney(200);
+
+        // Check balance again
+        account.checkBalance();
+    }
+}
+
+
